@@ -1,0 +1,62 @@
+.Dd April 6, 2020
+.Dt CSV-CONVERT 1
+.Os
+
+.Sh NAME
+.Nm csv-convert
+.Nd convert a csv file to a more easily parseable format
+
+.Sh SYNOPSIS
+.Nm
+
+.Sh DESCRIPTION
+The
+.Nm
+utility takes a
+.Sq csv
+file on its standard input and outputs it in
+a way that can be parsed more easily by tools such as
+.Xr awk 1 .
+
+.Pp
+Because a field in the
+.Sq csv
+file format can be enclosed in double-quotes in order to include the delimiter
+character (comma) and newlines, it can be difficult or impossible
+to use with tools like
+.Xr awk 1
+that are designed to operate on files which contain each record on its own
+line
+.Po with each field within delimited by a designated delimiter character
+that does not appear in any field
+.Pc .
+
+.Pp
+.Nm
+converts a
+.Sq csv
+file to just such a format. Each record is printed on its own line,
+with fields delimited by commas. Within each field, the following substitutions
+are made:
+.Bl -bullet
+.It
+.Dq \ec
+for comma
+.It
+.Dq \en
+for newline
+.It
+.Dq \e\e
+for backslash
+.El
+
+.Sh EXIT STATUS
+The
+.Nm
+utility exits 0 on success and 1 on failure.
+
+.Sh SEE ALSO
+.Xr awk 1
+
+.Sh AUTHORS
+.An Zach Hopkins
