@@ -55,6 +55,33 @@ The
 .Nm
 utility exits 0 on success and 1 on failure.
 
+.Sh EXAMPLES
+Assuming the file
+.Sq test.csv
+contains:
+.Bd -literal
+OS,Description,Free
+GNU/Linux,"GNU's
+Not
+""UNIX""",yes
+OpenBSD,"Only two remote holes in the default install,
+in a heck of a long time!",yes
+Windows,":( Your PC ran into a problem and needs to restart. \e",no
+.Ed
+.Pp
+.Do
+.Nm
+<
+.Ar test.csv
+.Dc
+will print:
+.Bd -literal
+OS,Description,Free
+GNU/Linux,GNU's\enNot\en\(dqUNIX\(dq,yes
+OpenBSD,Only two remote holes in the default install\ec\enin a heck of a long time!,yes
+Windows,:( Your PC ran into a problem and needs to restart. \e\e,no
+.Ed
+
 .Sh SEE ALSO
 .Xr awk 1
 
