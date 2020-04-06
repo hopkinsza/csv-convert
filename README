@@ -1,0 +1,69 @@
+CSV-CONVERT(1)              General Commands Manual             CSV-CONVERT(1)
+
+
+
+NNAAMMEE
+     ccssvv--ccoonnvveerrtt - convert a csv file to a more easily parseable format
+
+
+SSYYNNOOPPSSIISS
+     ccssvv--ccoonnvveerrtt
+
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The ccssvv--ccoonnvveerrtt utility takes a `csv' file on its standard input and
+     outputs it in a way that can be parsed more easily by tools such as
+     awk(1).
+
+
+     Because a field in the `csv' file format can be enclosed in double-quotes
+     in order to include the delimiter character (comma) and newlines, it can
+     be difficult or impossible to use with tools like awk(1) that are
+     designed to operate on files which contain each record on its own line
+     (with each field within delimited by a designated delimiter character
+     that does not appear in any field).
+
+
+     ccssvv--ccoonnvveerrtt converts a `csv' file to just such a format. Each record is
+     printed on its own line, with fields delimited by commas. Within each
+     field, the following substitutions are made:
+
+     ++oo   "\c" for comma
+
+     ++oo   "\n" for newline
+
+     ++oo   "\\" for backslash
+
+
+EEXXIITT SSTTAATTUUSS
+     The ccssvv--ccoonnvveerrtt utility exits 0 on success and 1 on failure.
+
+
+EEXXAAMMPPLLEESS
+     Assuming the file `test.csv' contains:
+
+     OS,Description,Free
+     GNU/Linux,"GNU's
+     Not
+     ""UNIX""",yes
+     OpenBSD,"Only two remote holes in the default install,
+     in a heck of a long time!",yes
+     Windows,":( Your PC ran into a problem and needs to restart. \",no
+
+     "ccssvv--ccoonnvveerrtt < _t_e_s_t_._c_s_v" will print:
+
+     OS,Description,Free
+     GNU/Linux,GNU's\nNot\n"UNIX",yes
+     OpenBSD,Only two remote holes in the default install\c\nin a heck of a long time!,yes
+     Windows,:( Your PC ran into a problem and needs to restart. \\,no
+
+
+SSEEEE AALLSSOO
+     awk(1)
+
+
+AAUUTTHHOORRSS
+     Zach Hopkins
+
+Void Linux                       April 6, 2020                      Void Linux
