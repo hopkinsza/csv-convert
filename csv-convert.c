@@ -2,51 +2,48 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void err_quote(const char *progname) {
+void
+err_quote(const char *progname)
+{
 	fflush(stdout);
 	fprintf(stderr, "\n%s: error: unmatched quote\n", progname);
 }
 
-int main(int argc, char **argv) {
+int
+main(int argc, char **argv)
+{
 	const char *progname = argv[0];
-	bool inq = false; /* are we in quotes? */
+	bool inq = false;	/* are we in quotes? */
 	int c;
 	int next;
-	while ( (c = getchar()) != EOF) {
+	while ((c = getchar()) != EOF) {
 		if (!inq) {
-			/* entering quotes */
-			if (c == '"') {
-				inq = true;
-			}
-			/* or just print */
-			else {
-				putchar(c);
-			}
-		}
-		else {
-			/*
-			 * encountering another quote;
-			 * get the next char to see if it's actually
-			 * just escaping a literal '"'
+			/* 
+			 * enter quotes if necessary and discard the '"',
+			 * or just print
 			 */
 			if (c == '"') {
-				if ( (next = getchar()) == EOF) {
+				inq = true;
+			} else {
+				putchar(c);
+			}
+		} else {
+			/* 
+			 * check if exiting quotes,
+			 * otherwise print (with necessary substitutions)
+			 */
+			if (c == '"') {
+				if ((next = getchar()) == EOF) {
 					err_quote(progname);
 				}
-
+				/* '"' is used to escape itself */
 				if (next == '"') {
 					putchar('"');
-				}
-				else {
+				} else {
 					putchar(next);
 					inq = false;
 				}
-			}
-			/*
-			 * replace problematic chars
-			 * with escape sequences
-			 */
-			else if (c == '\\') {
+			} else if (c == '\\') {
 				putchar('\\');
 				putchar('\\');
 			} else if (c == '\n') {
