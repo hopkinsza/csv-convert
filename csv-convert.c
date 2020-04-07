@@ -1,22 +1,22 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-void err_quote() {
+void err_quote(const char *progname) {
 	fflush(stdout);
-	fprintf(stderr, "\n[error: unmatched quote]\n");
-	exit(1);
+	fprintf(stderr, "\n%s: error: unmatched quote\n", progname);
 }
 
-int main() {
-	/* in quotes */
-	int inq = 0;
+int main(int argc, char **argv) {
+	const char *progname = argv[0];
+	bool inq = false; /* are we in quotes? */
 	int c;
 	int next;
 	while ( (c = getchar()) != EOF) {
 		if (!inq) {
 			/* entering quotes */
 			if (c == '"') {
-				inq = 1;
+				inq = true;
 			}
 			/* or just print */
 			else {
@@ -24,24 +24,28 @@ int main() {
 			}
 		}
 		else {
-			/* encountering another quote;
-			 * is this the end-quote? */
+			/*
+			 * encountering another quote;
+			 * get the next char to see if it's actually
+			 * just escaping a literal '"'
+			 */
 			if (c == '"') {
 				if ( (next = getchar()) == EOF) {
-					err_quote();
+					err_quote(progname);
 				}
-				/* no, it is to escape a literal '"' */
+
 				if (next == '"') {
 					putchar('"');
 				}
-				/* yes */
 				else {
 					putchar(next);
-					inq = 0;
+					inq = false;
 				}
 			}
-			/* replace problematic characters
-			 * with escape sequences */
+			/*
+			 * replace problematic chars
+			 * with escape sequences
+			 */
 			else if (c == '\\') {
 				putchar('\\');
 				putchar('\\');
@@ -58,7 +62,7 @@ int main() {
 	}
 
 	if (inq)
-		err_quote();
+		err_quote(progname);
 	else
 		return 0;
 }
