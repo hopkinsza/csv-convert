@@ -1,19 +1,21 @@
 #include <stdbool.h>
-#include <stdlib.h>
+#include <err.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void
-err_quote(const char *progname)
+err_quote(unsigned lineno)
 {
 	fflush(stdout);
-	fprintf(stderr, "\n%s: error: unmatched quote\n", progname);
+	fprintf(stderr, "\n");
+	errx(1, "line %u: unmatched quote", lineno);
 }
 
 int
 main(int argc, char **argv)
 {
-	const char *progname = argv[0];
 	bool inq = false;	/* are we in quotes? */
+	unsigned lineno = 1;
 	int c;
 	int next;
 	while ((c = getchar()) != EOF) {
@@ -25,6 +27,8 @@ main(int argc, char **argv)
 			if (c == '"') {
 				inq = true;
 			} else {
+				if (c == '\n')
+					lineno++;
 				putchar(c);
 			}
 		} else {
@@ -33,13 +37,14 @@ main(int argc, char **argv)
 			 * otherwise print (with necessary substitutions)
 			 */
 			if (c == '"') {
-				if ((next = getchar()) == EOF) {
-					err_quote(progname);
-				}
+				if ((next = getchar()) == EOF)
+					err_quote(lineno);
 				/* '"' is used to escape itself */
 				if (next == '"') {
 					putchar('"');
 				} else {
+					if (next == '\n')
+						lineno++;
 					putchar(next);
 					inq = false;
 				}
@@ -47,6 +52,7 @@ main(int argc, char **argv)
 				putchar('\\');
 				putchar('\\');
 			} else if (c == '\n') {
+				lineno++;
 				putchar('\\');
 				putchar('n');
 			} else if (c == ',') {
@@ -59,7 +65,7 @@ main(int argc, char **argv)
 	}
 
 	if (inq)
-		err_quote(progname);
+		err_quote(lineno);
 	else
 		return 0;
 }
