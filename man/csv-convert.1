@@ -1,14 +1,11 @@
 .Dd April 6, 2020
 .Dt CSV-CONVERT 1
 .Os
-
 .Sh NAME
 .Nm csv-convert
 .Nd convert a csv file to a more easily parseable format
-
 .Sh SYNOPSIS
 .Nm
-
 .Sh DESCRIPTION
 The
 .Nm
@@ -17,7 +14,6 @@ utility takes a
 file on its standard input and outputs it in
 a way that can be parsed more easily by tools such as
 .Xr awk 1 .
-
 .Pp
 Because a field in the
 .Ql csv
@@ -30,7 +26,6 @@ line
 .Po with each field within delimited by a designated delimiter character
 that does not appear in any field
 .Pc .
-
 .Pp
 .Nm
 converts a
@@ -49,11 +44,9 @@ for newline
 .Ql \e\e
 for backslash
 .El
-
 .Sh EXIT STATUS
 .Nm
 exits 0 on success and 1 on failure.
-
 .Sh EXAMPLES
 Assuming the file
 .Sq test.csv
@@ -76,9 +69,7 @@ GNU/Linux,GNU's\enNot\en"UNIX",yes
 OpenBSD,Only two remote holes in the default install\ec\enin a heck of a long time!,yes
 Windows,:( Your PC ran into a problem and needs to restart. \e\e,no
 .Ed
-
 .Sh SEE ALSO
 .Xr awk 1
-
 .Sh AUTHORS
 .An Zach Hopkins
