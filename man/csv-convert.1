@@ -13,14 +13,14 @@
 The
 .Nm
 utility takes a
-.Sq csv
+.Ql csv
 file on its standard input and outputs it in
 a way that can be parsed more easily by tools such as
 .Xr awk 1 .
 
 .Pp
 Because a field in the
-.Sq csv
+.Ql csv
 file format can be enclosed in double-quotes in order to include the delimiter
 character (comma) and newlines, it can be difficult or impossible
 to use with tools like
@@ -34,26 +34,25 @@ that does not appear in any field
 .Pp
 .Nm
 converts a
-.Sq csv
+.Ql csv
 file to just such a format. Each record is printed on its own line,
 with fields delimited by commas. Within each field, the following substitutions
 are made:
 .Bl -bullet
 .It
-.Dq \ec
+.Ql \ec
 for comma
 .It
-.Dq \en
+.Ql \en
 for newline
 .It
-.Dq \e\e
+.Ql \e\e
 for backslash
 .El
 
 .Sh EXIT STATUS
-The
 .Nm
-utility exits 0 on success and 1 on failure.
+exits 0 on success and 1 on failure.
 
 .Sh EXAMPLES
 Assuming the file
@@ -69,11 +68,7 @@ in a heck of a long time!",yes
 Windows,":( Your PC ran into a problem and needs to restart. \e",no
 .Ed
 .Pp
-.Do
-.Nm
-<
-.Ar test.csv
-.Dc
+.Dq Nm Li < Ar test.csv
 will print:
 .Bd -literal
 OS,Description,Free
